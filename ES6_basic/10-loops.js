@@ -1,3 +1,3 @@
-export default function appendToEachArrayValue(array, appendString) {
-  return array.map(value => appendString + value);
-}
+import appendToEachArrayValue from './10-loops.js';
+
+console.log(appendToEachArrayValue(['appended', 'fixed', 'displayed'], 'correctly-'));
