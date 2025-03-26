@@ -3,8 +3,7 @@ export default function getNeighborhoodsList() {
 
   // Utilisation de la syntaxe fléchée pour addNeighborhood
   this.addNeighborhood = (newNeighborhood) => {
-    this.sanFranciscoNeighborhoods.push(newNeighborhood);  // `this` fait référence au bon contexte
+    this.sanFranciscoNeighborhoods.push(newNeighborhood); // `this` fait référence au bon contexte
     return this.sanFranciscoNeighborhoods;
   };
 }
-
