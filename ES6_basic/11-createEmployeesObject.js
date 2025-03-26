@@ -3,4 +3,3 @@ export default function createEmployeesObject(departmentName, employees) {
     [departmentName]: employees,  // Clé dynamique : departmentName, valeur : employees
   };
 }
-
