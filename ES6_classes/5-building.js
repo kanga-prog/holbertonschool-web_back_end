@@ -1,19 +1,25 @@
 class Building {
-    constructor(sqft) {
-      if (this.constructor === Building) {
-        throw new Error("Cannot instantiate abstract class Building");
-      }
-      this._sqft = sqft;
+  constructor(sqft) {
+    if (this.constructor === Building) {
+      throw new Error('Cannot instantiate abstract class Building');
     }
-  
-    get sqft() {
-      return this._sqft;
-    }
-  
-    evacuationWarningMessage() {
+
+    if (typeof this.evacuationWarningMessage !== 'function') {
       throw new Error('Class extending Building must override evacuationWarningMessage');
     }
+
+    this._sqft = sqft;
   }
-  
-  export default Building;
-  
+
+  get sqft() {
+    return this._sqft;
+  }
+
+  // Désactiver la règle "class-methods-use-this" pour cette méthode spécifique
+  /* eslint-disable-next-line class-methods-use-this */
+  evacuationWarningMessage() {
+    throw new Error('Class extending Building must override evacuationWarningMessage');
+  }
+}
+
+export default Building;
