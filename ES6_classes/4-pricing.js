@@ -1,47 +1,41 @@
-import Currency from './3-currency.js';
-
-class Pricing {
-  constructor(amount, currency) {
-    this._amount = amount;
-    this._currency = currency;
-  }
-
-  // Getter et setter pour amount
-  get amount() {
-    return this._amount;
-  }
-
-  set amount(value) {
-    if (typeof value !== 'number') {
-      throw new Error('Amount must be a number');
+class Currency {
+  constructor(code, name) {
+    if (typeof code !== 'string') {
+      throw new Error('Code must be a string');
     }
-    this._amount = value;
-  }
-
-  // Getter et setter pour currency
-  get currency() {
-    return this._currency;
-  }
-
-  set currency(value) {
-    if (!(value instanceof Currency)) {
-      throw new Error('Currency must be an instance of Currency');
+    if (typeof name !== 'string') {
+      throw new Error('Name must be a string');
     }
-    this._currency = value;
+
+    this._code = code;
+    this._name = name;
   }
 
-  // Méthode pour afficher le prix complet
-  displayFullPrice() {
-    return `${this._amount} ${this._currency.name} (${this._currency.code})`;
+  get code() {
+    return this._code;
   }
 
-  // Méthode statique pour la conversion des prix
-  static convertPrice(amount, conversionRate) {
-    if (typeof amount !== 'number' || typeof conversionRate !== 'number') {
-      throw new Error('Both amount and conversion rate must be numbers');
+  set code(value) {
+    if (typeof value !== 'string') {
+      throw new Error('Code must be a string');
     }
-    return amount * conversionRate;
+    this._code = value;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(value) {
+    if (typeof value !== 'string') {
+      throw new Error('Name must be a string');
+    }
+    this._name = value;
+  }
+
+  displayFullCurrency() {
+    return `${this._name} (${this._code})`;
   }
 }
 
-export default Pricing;
+export default Currency;
