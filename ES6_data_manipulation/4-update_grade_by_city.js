@@ -1,4 +1,7 @@
-function updateStudentGradeByCity(students, city, newGrades) {
+export default function updateStudentGradeByCity(students, city, newGrades) {
+    if (!Array.isArray(students) || !Array.isArray(newGrades)) {
+        return [];
+      }
   return students
     .filter((student) => student.location === city) // Filtrer les étudiants par ville
     .map((student) => {
