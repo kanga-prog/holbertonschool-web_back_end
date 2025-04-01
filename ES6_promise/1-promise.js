@@ -11,12 +11,13 @@ function getFullResponseFromAPI(success) {
   });
 }
 
-// Appel de la fonction avec success = false, sans utiliser .catch()
+// Appel de la fonction avec success = false
 getFullResponseFromAPI(false)
   .then((response) => {
-    console.log(response); // Ce bloc sera ignoré si la promesse est rejetée
-  }, (error) => {
-    console.error(error); // Gestion des erreurs ici, dans le .then()
+    console.log(response); // Cette partie ne sera pas appelée si la promesse est rejetée
+  })
+  .catch((error) => {
+    console.error(error); // Cette partie gère l'erreur si la promesse est rejetée
   });
 
 export default getFullResponseFromAPI;
