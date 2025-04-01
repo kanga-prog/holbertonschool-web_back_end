@@ -11,22 +11,12 @@ function getFullResponseFromAPI(success) {
   });
 }
 
-
-const promise1 = getFullResponseFromAPI(true);
-promise1.then((response) => {
-  console.log(response);
-}).catch((error) => {
-  console.error(error); 
-});
-
-const promise2 = getFullResponseFromAPI(false);
-promise2.then((response) => {
-  console.log(response);
-}).catch((error) => {
-  console.error(error);
-});
-
-console.log(promise1); 
-console.log(promise2);
-
+getFullResponseFromAPI(false)
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 export default getFullResponseFromAPI;
+
