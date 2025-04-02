@@ -11,12 +11,4 @@ function getFullResponseFromAPI(success) {
   });
 }
 
-getFullResponseFromAPI(false)
-  .then((response) => {
-    console.log(response);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
 export default getFullResponseFromAPI;
-
