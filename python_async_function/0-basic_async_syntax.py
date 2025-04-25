@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module with a type-annotated function `wait_random` \
+    that waits for a random delay
+between 0 and a maximum value (max_delay) and returns it.
+
+The function is asynchronous and uses asyncio for managing the delay.
+"""
 import random
 import asyncio
 
