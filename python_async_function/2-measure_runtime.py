@@ -1,27 +1,23 @@
 #!/usr/bin/env python3
 """
-Module for measuring the execution time of wait_n
+Create a measure_time function with integers n and max_delay
+as arguments that measures the total execution time
+for wait_n(n, max_delay), and returns total_time / n.
+Your function should return a float.
+Use the time module to measure an approximate elapsed time.
 """
-
 import asyncio
 import time
-from concurrent_coroutines import wait_n
+wait_n = __import__('1-concurrent_coroutines').wait_n
+
 
 def measure_time(n: int, max_delay: int) -> float:
     """
-    Measures the total execution time for the wait_n coroutine,
-    and returns the time per execution.
-
-    Args:
-        n (int): The number of times to run the wait_n coroutine.
-        max_delay (int): The maximum delay to be used by wait_n.
-
-    Returns:
-        float: The average time per execution (total_time / n).
+    Measure the runtime
     """
-    start_time = time.time()  # Capture the start time
-    asyncio.run(wait_n(n, max_delay))  # Run the wait_n coroutine
-    end_time = time.time()  # Capture the end time
+    start_time = time.time()
+    asyncio.run(wait_n(n, max_delay))
+    end_time = time.time()
+    elapsed_time = end_time - start_time
 
-    total_time = end_time - start_time  # Calculate total time
-    return total_time / n  # Return the average time per execution
+    return (elapsed_time / n)
