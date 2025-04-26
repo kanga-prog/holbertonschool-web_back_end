@@ -1,30 +1,28 @@
 #!/usr/bin/env python3
 """
-Import wait_random from the previous python file that you have written
-and write an async routine called wait_n that takes in 2 int arguments
-(in this order): n and max_delay. You will spawn wait_random n times
-with the specified max_delay.
-wait_n should return the list of all the delays (float values).
-The list of the delays should be in ascending order without
-using sort() because of concurrency.
+Create a measure_time function with integers n and max_delay
+as arguments that measures the total execution time
+for wait_n(n, max_delay), and returns total_time / n.
+Your function should return a float.
+Use the time module to measure an approximate elapsed time.
 """
+import random
 import asyncio
-from typing import List
-wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-async def wait_n(n: int, max_delay: int) -> List[float]:
+async def wait_random(max_delay: int = 10) -> float:
     """
-    Let's execute multiple coroutines at the same time with async
+    Asynchronous coroutine that waits for a random delay\
+          between 0 and max_delay (inclusive),
+    and then returns the delay.
+
+    Args:
+        max_delay (int): The maximum delay in seconds (default is 10).
+
+    Returns:
+        float: A random delay between 0 and max_delay seconds.
     """
-    delays = []
-    coroutines = []
-    for number_coroutines in range(n):
-        coroutines.append(wait_random(max_delay))
-
-    for coroutine in asyncio.as_completed(coroutines):
-        # as_completed order coroutines by end of excecution (fastest first)
-        delay = await coroutine
-        delays.append(delay)
-
-    return delays
+    # Generate a random delay between 0 and max_delay
+    delay = random.uniform(0, max_delay)
+    await asyncio.sleep(delay)
+    return delay
