@@ -4,6 +4,7 @@ This module contains an asynchronous generator function `async_generator`
 that yields random numbers between 0 and 10 after waiting 1 second each time.
 """
 
+
 import random
 import asyncio
 from typing import AsyncGenerator
@@ -20,4 +21,3 @@ async def async_generator() -> AsyncGenerator[float, None]:
     for _ in range(10):
         await asyncio.sleep(1)
         yield random.uniform(0, 10)
-
