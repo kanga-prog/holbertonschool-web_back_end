@@ -21,7 +21,7 @@ class Server:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
-            self.__dataset = dataset[1:]  # Skip header
+            self.__dataset = dataset[1:]  # Skip header row
         return self.__dataset
 
     def indexed_dataset(self) -> Dict[int, List]:
@@ -34,15 +34,15 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = 0, page_size: int = 10) -> Dict:
-        """Return page data with deletion resilience"""
-        assert isinstance(index, int) and index >= 0 and \
-            index < len(self.dataset())
+        """Return deletion-resilient hypermedia pagination info"""
+        assert isinstance(index, int)
+        assert 0 <= index < len(self.dataset())
 
         indexed_data = self.indexed_dataset()
         data = []
         current_index = index
 
-        # Collect page_size number of valid rows
+        # Collect exactly `page_size` valid records, skipping missing ones
         while len(data) < page_size and current_index < len(self.dataset()):
             item = indexed_data.get(current_index)
             if item:
@@ -50,8 +50,8 @@ class Server:
             current_index += 1
 
         return {
-            "index": index,
-            "next_index": current_index,
-            "page_size": len(data),
-            "data": data
+            'index': index,
+            'next_index': current_index,
+            'page_size': len(data),
+            'data': data
         }
