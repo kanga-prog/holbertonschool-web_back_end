@@ -1,7 +1,4 @@
-// 5-count.js
+// my comment
 
-// Utiliser la base de données passée en argument (ex : mongo my_db)
-use process.argv[2];
-
-// Afficher le nombre de documents dans la collection school
-print(db.school.countDocuments());
+use $1  // Sélectionne la base de données passée en argument
+print(db.school.count());
