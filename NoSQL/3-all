@@ -1,0 +1,4 @@
+// my comment
+
+use $1  # Sélectionner la base de données passée en argument
+db.school.find().forEach(printjson)
