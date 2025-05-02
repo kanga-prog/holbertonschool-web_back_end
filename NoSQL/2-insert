@@ -1,2 +1,5 @@
-// 2-insert
-db.school.insertOne({ name: "Holberton school" })
+// Connexion à la base de données 'my_db'
+use my_db;
+
+// Insérer un document dans la collection 'school'
+db.school.insertOne({ name: "Holberton school" });
