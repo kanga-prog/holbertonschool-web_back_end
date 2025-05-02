@@ -1,6 +1,4 @@
 // my comment
 
 use $1  # Sélectionner la base de données passée en argument
-db.school.insertOne({
-  name: "Holberton school"
-})
+db.school.insertOne({ name: "Holberton school"})
