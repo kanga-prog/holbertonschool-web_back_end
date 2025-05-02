@@ -1,3 +1,6 @@
-// Connexion à la base de données 'my_db'
-use my_db;
-db.school.insertOne({ name: "Holberton school" });
+// my comment
+
+use $1  # Sélectionner la base de données passée en argument
+db.school.insertOne({
+  name: "Holberton school"
+})
