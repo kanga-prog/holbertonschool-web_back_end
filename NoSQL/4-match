@@ -1,0 +1,7 @@
+// 4-match.js
+
+// Utiliser la base de données passée en argument (ex : mongo my_db)
+use process.argv[2];
+
+// Effectuer une recherche sur le champ "name" avec la valeur "Holberton school"
+db.school.find({ name: "Holberton school" }).forEach(printjson);
