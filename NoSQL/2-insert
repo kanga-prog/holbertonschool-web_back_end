@@ -1,6 +1,6 @@
 // my comment
 
-use $1  # Sélectionner la base de données passée en argument
+use my_db $1  # Sélectionner la base de données passée en argument
 db.school.insertOne({
   name: "Holberton school"
 })
