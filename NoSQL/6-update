@@ -2,6 +2,6 @@
 
 use $1  // Sélectionne la base de données passée en argument
 db.school.updateMany(
-  { name: "Holberton school" },  // Critère de sélection
-  { $set: { address: "972 Mission street" } }  // Mise à jour (ajoute l'attribut 'address')
+  { name: "Holberton school" },
+  { $set: { address: "972 Mission street" } }
 );
