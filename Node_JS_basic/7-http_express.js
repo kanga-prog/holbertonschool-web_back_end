@@ -1,80 +1,86 @@
-// 7-http_express.js
-
 const express = require('express');
-const fs = require('fs').promises;
+const fs = require('fs');
 
-const app = express();
+function countStudents(filepath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filepath, 'utf-8', (err, res) => {
+      if (err) return reject(new Error('Cannot load the database'));
 
-const port = 1245;
-const databaseFile = process.argv[2]; // Nom du fichier CSV passé en argument
+      const headerArray = res.split(/\r?\n|\n/);
+      const headers = headerArray[0].split(',');
 
-// Fonction pour lire et analyser le fichier CSV des étudiants
-async function countStudents(path) {
-  try {
-    const data = await fs.readFile(path, 'utf8');
-    const lines = data.split('\n').filter(line => line.trim() !== ''); // ignore empty lines
-
-    // Première ligne = header, on l’enlève
-    const students = lines.slice(1);
-
-    const fields = {};
-    // Structure : map spécialité => liste d’étudiants
-
-    for (const line of students) {
-      const parts = line.split(',');
-      if (parts.length < 4) continue; // ligne mal formée, on ignore
-
-      const firstname = parts[0].trim();
-      const lastname = parts[1].trim();
-      // const age = parts[2]; // non utilisé ici
-      const field = parts[3].trim();
-
-      if (!fields[field]) {
-        fields[field] = [];
+      // strip headers and convert to list of dicts
+      const dictList = [];
+      const noHeaderArray = headerArray.slice(1);
+      for (let i = 0; i < noHeaderArray.length; i += 1) {
+        const data = noHeaderArray[i].split(',');
+        if (data.length === headers.length) {
+          const row = {};
+          for (let j = 0; j < headers.length; j += 1) {
+            row[headers[j].trim()] = data[j].trim();
+          }
+          dictList.push(row);
+        }
       }
-      fields[field].push(firstname);
-    }
 
-    // Calcul nombre total
-    const total = students.length;
+      // count and collect first names of students per field
+      let countCS = 0;
+      let countSWE = 0;
+      const studentsCS = [];
+      const studentsSWE = [];
 
-    // Préparer la chaîne de retour
-    let output = `Number of students: ${total}\n`;
+      dictList.forEach((element) => {
+        if (element.field === 'CS') {
+          countCS += 1;
+          studentsCS.push(element.firstname);
+        } else if (element.field === 'SWE') {
+          countSWE += 1;
+          studentsSWE.push(element.firstname);
+        }
+      });
 
-    for (const field of Object.keys(fields).sort()) {
-      output += `Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}\n`;
-    }
+      const countStudents = countCS + countSWE;
 
-    return output.trim(); // retirer le dernier \n
-  } catch (error) {
-    throw new Error('Cannot load the database');
-  }
+      return resolve({
+        countStudents,
+        countCS,
+        countSWE,
+        studentsCS,
+        studentsSWE,
+      });
+    });
+  });
 }
 
-// Route racine
+const pathToDB = process.argv[2];
+const app = express();
+const port = 1245;
+
 app.get('/', (req, res) => {
-  res.type('text/plain');
   res.send('Hello Holberton School!');
 });
 
-// Route /students
 app.get('/students', async (req, res) => {
-  res.type('text/plain');
-  if (!databaseFile) {
-    return res.send('No database file provided');
-  }
-  try {
-    const data = await countStudents(databaseFile);
-    res.send(`This is the list of our students\n${data}`);
-  } catch (error) {
-    res.send(error.message);
-  }
+  // call async function and collect needed variables
+  await countStudents(pathToDB)
+    .then(({
+      countStudents,
+      countCS,
+      countSWE,
+      studentsCS,
+      studentsSWE,
+    }) => {
+      const text = 'This is the list of our students\n';
+      const total = `Number of students: ${countStudents}\n`;
+      const CS = `Number of students in CS: ${countCS}. List: ${studentsCS.toString().split(',').join(', ')}\n`;
+      const SWE = `Number of students in SWE: ${countSWE}. List: ${studentsSWE.toString().split(',').join(', ')}`;
+      res.status(200).send(text + total + CS + SWE);
+    })
+    .catch(() => {
+      res.status(404).send('Cannot load the database');
+    });
 });
 
-if (require.main === module) {
-  app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-  });
-}
+app.listen(port);
 
 module.exports = app;
